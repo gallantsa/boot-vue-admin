@@ -5,6 +5,11 @@ public class User {
     private String username;
     private String password;
 
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -36,5 +41,14 @@ public class User {
     }
 
     public User() {
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-icons.css">
-    <title>登录</title>
+    <title>注册</title>
     <style>
         body {
             background: url("./imgs/bg.jpg") no-repeat;
@@ -20,7 +20,7 @@
     padding: 30px 0 50px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, .2)">
         <div style="width: 80%; margin: 0 auto">
             <!--因为是前后端请求分离, 所以不需要用到原生的form包裹-->
-            <div style="margin: 20px; color: #0b5ed7"><h2>登录</h2></div>
+            <div style="margin: 20px; color: green"><h2>注册</h2></div>
             <div class="input-group mb-3">
                 <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
                 <input type="text" class="form-control" placeholder="用户名" v-model="username">
@@ -29,15 +29,19 @@
                 <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
                 <input type="password" class="form-control" placeholder="密码" v-model="password">
             </div>
-            <div class="mb-3">
-                <button style="width: 100%" class="btn btn-primary" @click="login">登录</button>
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                <input type="password" class="form-control" placeholder="确认密码" v-model="confirm">
             </div>
-            <div style="text-align: right"><a href="/register.html">前往注册</a></div>
+            <div class="mb-3">
+                <button style="width: 100%" class="btn btn-success" @click="register">注 册</button>
+            </div>
+            <div style="text-align: right"><a href="/login.html">前往登录</a></div>
         </div>
     </div>
 </div>
 
-<script  src="js/vue.min.js"></script>
+<script src="js/vue.min.js"></script>
 <script src="js/bootstrap.bundle.min.js"></script>
 <script>
     new Vue({
@@ -46,31 +50,37 @@
             return {
                 username: '',
                 password: '',
-                message: 'hahah'
+                message: 'hahah',
+                confirm: ''
             }
         },
         methods: {
-            login() {
-                if (!this.username || !this.password) {
+            register() {
+                if (!this.username || !this.password || !this.confirm) {
                     alert("请输入账号和密码")
+                    return
+                }
+                if (this.password != this.confirm) {
+                    alert("您两次输入的密码不一致")
                     return
                 }
 
                 // 发送请求给后台
-                fetch("/user/login", {
+                fetch("/user/register", {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({username: this.username, password: this.password}) // js对象序列化为json字符串
+                    body: JSON.stringify({username: this.username, password: this.password, confirm: this.confirm})
+                    // js对象序列化为json字符串
                 })
                     .then(res => res.text()) // 对res进行处理, 获取到后台返回的数据
                     .then(res => { // res就是后台返回的结果
                         console.log(res)
                         if (res === 'SUCCESS') { // 判断请求是否成功
-                            location.href = '/'
+                            location.href = '/login.html'
                         } else {
-                            alert("账号或密码错误")
+                            alert("注册失败")
                         }
                     })
             }
