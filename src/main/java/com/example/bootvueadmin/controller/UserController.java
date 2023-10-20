@@ -2,6 +2,7 @@ package com.example.bootvueadmin.controller;
 
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.example.bootvueadmin.common.Result;
 import com.example.bootvueadmin.entity.User;
 import com.example.bootvueadmin.mapper.UserMapper;
 import com.example.bootvueadmin.service.UserService;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 // SpringMVC
 @RestController
@@ -27,7 +29,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/login")
-    public String login(@RequestBody String userStr, HttpServletRequest request) { // 把前台发过来的 json字符串转成Java对象
+    public Result<User> login(@RequestBody String userStr, HttpServletRequest request) { // 把前台发过来的 json字符串转成Java对象
         // {"username":"admin","password":"admin"}
         System.out.println(userStr);
         JSONObject userObj = JSONUtil.parseObj(userStr);
@@ -47,9 +49,9 @@ public class UserController {
         if (user != null) {
             // 把用户信息存到session中
             request.getSession().setAttribute("user", user);
-            return "SUCCESS";
+            return Result.success(user);
         } else {
-            return "FAIL";
+            return Result.error("账号或密码错误");
         }
 
 //        if ("admin".equals(username) && "admin".equals(password)) {
@@ -65,7 +67,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/register")
-    public String register(@RequestBody String userStr, HttpServletRequest request) { // 把前台发过来的 json字符串转成Java对象
+    public Result<Void> register(@RequestBody String userStr, HttpServletRequest request) { // 把前台发过来的 json字符串转成Java对象
         JSONObject userObj = JSONUtil.parseObj(userStr);
 
         // 把接口参数转换成 java bean
@@ -79,14 +81,8 @@ public class UserController {
         // User user = JDBCUtil.executeQueryUser(username, password);
 
         // 通过mybatis查询数据
-        boolean register = userService.register(username, password);
-        if (register) {
-            // 把用户信息存到session中
-            return "SUCCESS";
-        } else {
-            return "FAIL";
-        }
-
+        userService.register(username, password);
+        return Result.success();
 //        if ("admin".equals(username) && "admin".equals(password)) {
 //            return "SUCCESS";
 //        }

@@ -2,8 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap-icons.css">
     <title>登录</title>
     <style>
         body {
@@ -12,10 +10,11 @@
             background-size: cover;
         }
     </style>
+    <script src="js/resources.js"></script>
 </head>
 <body>
 <div id="app">
-    {{ message }}
+    {{ message1 }}
     <div style="width: 400px; background-color:#fff; margin: 150px auto; text-align: center; border: 1px solid #dddddd;
     padding: 30px 0 50px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, .2)">
         <div style="width: 80%; margin: 0 auto">
@@ -37,8 +36,6 @@
     </div>
 </div>
 
-<script  src="js/vue.min.js"></script>
-<script src="js/bootstrap.bundle.min.js"></script>
 <script>
     new Vue({
         el: '#app',
@@ -46,13 +43,13 @@
             return {
                 username: '',
                 password: '',
-                message: 'hahah'
+                message1: 'hahah'
             }
         },
         methods: {
             login() {
                 if (!this.username || !this.password) {
-                    alert("请输入账号和密码")
+                    $.message({message: "请输入账号密码", type: "warning"})
                     return
                 }
 
@@ -64,13 +61,16 @@
                     },
                     body: JSON.stringify({username: this.username, password: this.password}) // js对象序列化为json字符串
                 })
-                    .then(res => res.text()) // 对res进行处理, 获取到后台返回的数据
+                    .then(res => res.json()) // 对res进行处理, 获取到后台返回的数据
                     .then(res => { // res就是后台返回的结果
                         console.log(res)
-                        if (res === 'SUCCESS') { // 判断请求是否成功
-                            location.href = '/'
+                        if (res.code === '200') { // 判断请求是否成功
+                            $.message({message: "登陆成功", type: "success"})
+                            setTimeout(() =>{
+                                location.href = '/'
+                            }, 1500)
                         } else {
-                            alert("账号或密码错误")
+                            $.message({message: "账号或密码错误", type: "error"})
                         }
                     })
             }

@@ -1,11 +1,14 @@
 package com.example.bootvueadmin.service;
 
+import com.example.bootvueadmin.common.exception.CustomerException;
 import com.example.bootvueadmin.entity.User;
 import com.example.bootvueadmin.mapper.UserMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.sql.SQLException;
 
 
 @Service
@@ -22,19 +25,13 @@ public class UserService {
         return user;
     }
 
-    public boolean register(String username, String password) {
-        try {
-            User user = userMapper.selectUserByUsername(username);
-            if (user == null) {
-                User savedUser = new User(username, password);
-                userMapper.save(savedUser);
-            } else { // 有重名用户, 就注册失败了
-                return false;
-            }
-        } catch (Exception e) {
-            logger.error("注册用户失败", e); // 非常重要的排查错误的手段
-            return false;
+    public void register(String username, String password) throws CustomerException {
+
+        User user = userMapper.selectUserByUsername(username);
+        if (user != null) { // 表示数据库中没有重名用户
+            throw new CustomerException("用户名重复");
         }
-        return true;
+
+        userMapper.save(new User(username, password));
     }
 }
