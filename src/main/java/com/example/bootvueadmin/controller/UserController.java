@@ -24,69 +24,31 @@ public class UserController {
 
     /**
      * 登录
-     * @param userStr
      * @param request
      * @return
      */
     @PostMapping("/login")
-    public Result<User> login(@RequestBody String userStr, HttpServletRequest request) { // 把前台发过来的 json字符串转成Java对象
-        // {"username":"admin","password":"admin"}
-        System.out.println(userStr);
-        JSONObject userObj = JSONUtil.parseObj(userStr);
-
-        // 把接口参数转换成 java bean
-        // User user = JSONUtil.toBean(userStr, User.class);
-
-        // 直接从json对象获取属性
-        String username = userObj.getStr("username");
-        String password = userObj.getStr("password");
-
-        // 查询数据
-        // User user = JDBCUtil.executeQueryUser(username, password);
+    public Result<User> login(@RequestBody User user, HttpServletRequest request) { // 把前台发过来的 json字符串转成Java对象
 
         // 通过mybatis查询数据
-        User user = userService.login(username, password);
-        if (user != null) {
+        User res = userService.login(user.getUsername(), user.getPassword());
+        if (res != null) {
             // 把用户信息存到session中
             request.getSession().setAttribute("user", user);
-            return Result.success(user);
-        } else {
-            return Result.error("账号或密码错误");
         }
-
-//        if ("admin".equals(username) && "admin".equals(password)) {
-//            return "SUCCESS";
-//        }
-//        return "FAIL";
+        return Result.success(res);
     }
 
     /**
      * 注册
-     * @param userStr
      * @param request
      * @return
      */
     @PostMapping("/register")
-    public Result<Void> register(@RequestBody String userStr, HttpServletRequest request) { // 把前台发过来的 json字符串转成Java对象
-        JSONObject userObj = JSONUtil.parseObj(userStr);
-
-        // 把接口参数转换成 java bean
-        // User user = JSONUtil.toBean(userStr, User.class);
-
-        // 直接从json对象获取属性
-        String username = userObj.getStr("username");
-        String password = userObj.getStr("password");
-
-        // 查询数据
-        // User user = JDBCUtil.executeQueryUser(username, password);
-
+    public Result<Void> register(@RequestBody User user, HttpServletRequest request) { // 把前台发过来的 json字符串转成Java对象
         // 通过mybatis查询数据
-        userService.register(username, password);
+        userService.register(user.getUsername(), user.getPassword());
         return Result.success();
-//        if ("admin".equals(username) && "admin".equals(password)) {
-//            return "SUCCESS";
-//        }
-//        return "FAIL";
     }
 
     @GetMapping("/logout")

@@ -1,0 +1,24 @@
+div, ul, ol {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+ul,ol{
+    list-style: none;
+}
+
+a,a:hover, a:visited, a:link {
+    color: #333;
+    text-decoration: none;
+}
+.table {
+    text-align: center;
+}
+.row {
+    margin: 0;
+}
+.btn-link {
+    text-decoration: none;
+    padding: 0;
+}

@@ -3,17 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <title>首页</title>
+    <script src="js/resources.js"></script>
 </head>
 <body>
-    首页123343
-    <div>
-        <button onclick="logout()">登出</button>
+<!--    <div id="app">
+        &lt;!&ndash;头部&ndash;&gt;
+        <script src="js/header.js"></script>
+
+        &lt;!&ndash;主体&ndash;&gt;
+        <div style="display: flex; margin: 5px; border: 1px solid #ccc;">
+            <div style="width: 200px; border-right: 1px solid #ccc">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Active</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div style="flex: 1; margin-left: 10px; border-left: 1px solid #ccc">
+                主体
+            </div>
+        </div>
+    </div>-->
+
+<div id="app">
+
+    <!-- 头部-->
+    <script src="js/header.js"></script>
+
+    <!-- 主体 -->
+    <div style="display: flex; margin: 5px;">
+
+        <!-- 菜单栏-->
+        <script src="js/nav.js"></script>
+
+        <!-- 数据展示区域 -->
+        <div style="flex: 1; padding: 10px">
+            欢迎你！
+        </div>
     </div>
+</div>
 
     <script>
-        function logout() {
-            location.href = '/user/logout'
-        }
+        new Vue({
+            el: '#app',
+            data() {
+
+            },
+            created() {
+
+            },
+            methods: {
+
+            }
+        })
     </script>
 </body>
 </html>
