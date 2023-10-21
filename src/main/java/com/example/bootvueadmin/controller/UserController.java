@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 // SpringMVC
 @RestController
@@ -34,7 +35,7 @@ public class UserController {
         User res = userService.login(user.getUsername(), user.getPassword());
         if (res != null) {
             // 把用户信息存到session中
-            request.getSession().setAttribute("user", user);
+            request.getSession().setAttribute("user", res);
         }
         return Result.success(res);
     }
@@ -56,5 +57,12 @@ public class UserController {
         request.getSession().removeAttribute("user");
         System.out.println("登出之后session == " + request.getSession().getAttribute("user"));
         response.sendRedirect("/login.html");
+    }
+
+    // 写一个get请求
+    @GetMapping("/all")
+    public Result<List<User>> findAll(String name,
+                                      @RequestParam(required = false) String phone) {
+        return Result.success(userService.findAll(name, phone));
     }
 }

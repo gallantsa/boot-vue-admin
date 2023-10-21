@@ -66,6 +66,8 @@
                         console.log(res)
                         if (res.code === '200') { // 判断请求是否成功
                             $.message({message: "登陆成功", type: "success"})
+                            // 浏览器存储用户信息
+                            localStorage.setItem("user", JSON.stringify(res.data))
                             setTimeout(() =>{
                                 location.href = '/'
                             }, 1500)

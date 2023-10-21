@@ -6,31 +6,6 @@
     <script src="js/resources.js"></script>
 </head>
 <body>
-<!--    <div id="app">
-        &lt;!&ndash;头部&ndash;&gt;
-        <script src="js/header.js"></script>
-
-        &lt;!&ndash;主体&ndash;&gt;
-        <div style="display: flex; margin: 5px; border: 1px solid #ccc;">
-            <div style="width: 200px; border-right: 1px solid #ccc">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Active</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                </ul>
-            </div>
-
-            <div style="flex: 1; margin-left: 10px; border-left: 1px solid #ccc">
-                主体
-            </div>
-        </div>
-    </div>-->
 
 <div id="app">
 
@@ -45,7 +20,7 @@
 
         <!-- 数据展示区域 -->
         <div style="flex: 1; padding: 10px">
-            欢迎你！
+            欢迎你！{{ user.username }}
         </div>
     </div>
 </div>
@@ -54,7 +29,9 @@
         new Vue({
             el: '#app',
             data() {
-
+                return {
+                    user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
+                }
             },
             created() {
 

@@ -24,7 +24,7 @@ document.write(`
       <ul class="navContent" style="display:block">
           <li><a href="/index.html" class="navActive">主页</a></li>
       </ul>
-      <div class="subNav currentDt">系统管理</div>
+      <div class="subNav">系统管理</div>
       <ul class="navContent" style="display:block">
           <li><a href="/user.html">用户管理</a></li>
       </ul>
@@ -37,6 +37,20 @@ document.write(`
             $(this).toggleClass("currentDd").siblings(".subNav").removeClass("currentDd");
             $(this).toggleClass("currentDt").siblings(".subNav").removeClass("currentDt");
             $(this).next(".navContent").slideToggle(300).siblings(".navContent").slideUp(500);
+        })
+        let uri = location.href.substring(location.href.lastIndexOf('/'))
+        if (uri === '/') uri = '/index.html'
+        
+        $(".subNav").removeClass("currentDd");
+        $(".navContent").find("a").removeClass("navActive");
+        let $a = $(".navContent").find("a")
+        $.each($a, function (index, ele) {
+            if ($(ele).attr("href").includes(uri)) { //高亮
+                    $(ele).addClass("navActive") // 加一个高亮的class
+
+                    // 获取到当前菜单父级的兄弟节点给他高亮currentDd
+                    $(ele).parent().parent().prev().addClass("currentDd")
+                }
         })
     })
 </script>
