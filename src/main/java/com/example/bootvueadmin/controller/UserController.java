@@ -65,4 +65,22 @@ public class UserController {
                                       @RequestParam(required = false) String phone) {
         return Result.success(userService.findAll(name, phone));
     }
+
+    @PostMapping
+    public Result<Void> add(@RequestBody User user) {
+        userService.save(user);
+        return Result.success();
+    }
+
+    @PutMapping
+    public Result<Void> update(@RequestBody User user) {
+        userService.update(user);
+        return Result.success();
+    }
+
+    @DeleteMapping("/{id}")
+    public Result<Void> delete(@PathVariable Integer id) {
+        userService.deleteById(id);
+        return Result.success();
+    }
 }

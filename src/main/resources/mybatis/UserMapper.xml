@@ -4,8 +4,46 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bootvueadmin.mapper.UserMapper">
     <insert id="save">
-        insert into user(username, password) values (#{username}, #{password});
+        INSERT INTO `user` (`username`, `password`, `name`, `age`, `birth`, `account`, `phone`, `email`, `role`)
+        VALUES (#{username}, #{password}, #{name}, #{age}, #{birth}, #{account}, #{phone}, #{email}, #{role});
     </insert>
+    <update id="update">
+        UPDATE `user`
+        <set>
+            <if test="username != null and username != ''">
+                `username` = #{username},
+            </if>
+            <if test="password != null and password != ''">
+                `password` = #{password},
+            </if>
+            <if test="name != null and name != ''">
+                `name` = #{name},
+            </if>
+            <if test="age != null and age != ''">
+                `age` = #{age},
+            </if>
+--             因为日期类型不是String类型，所以要判断是否为空, 但不需要判断是否为空字符串
+            <if test="birth != null">
+                `birth` = #{birth},
+            </if>
+            <if test="account != null and account != ''">
+                `account` = #{account},
+            </if>
+            <if test="phone != null and phone != ''">
+                `phone` = #{phone},
+            </if>
+            <if test="email != null and email != ''">
+                `email` = #{email},
+            </if>
+            <if test="role != null and role != ''">
+                `role` = #{role},
+            </if>
+        </set>
+        WHERE `id` = #{id};
+    </update>
+    <delete id="deleteById">
+        DELETE FROM `user` WHERE `id` = #{id};
+    </delete>
 
     <select id="selectUser" resultType="com.example.bootvueadmin.entity.User">
         select * from user where username = #{username} and password = #{password};
@@ -24,6 +62,7 @@
                 and phone like concat('%', #{ phone }, '%')
             </if>
         </where>
+        order by id desc
     </select>
 
 

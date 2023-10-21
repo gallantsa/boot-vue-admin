@@ -15,6 +15,7 @@ a,a:hover, a:visited, a:link {
 .table {
     text-align: center;
 }
+/*消除滚动条*/
 .row {
     margin: 0;
 }

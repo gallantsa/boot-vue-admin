@@ -1,6 +1,7 @@
 package com.example.bootvueadmin.mapper;
 
 import com.example.bootvueadmin.entity.User;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
@@ -16,4 +17,8 @@ public interface UserMapper {
 
 //    @Select("select * from user")
     List<User> selectAll(@Param("name") String name, @Param("phone") String phone);
+
+    void update(User user);
+
+    void deleteById(Integer id);
 }
